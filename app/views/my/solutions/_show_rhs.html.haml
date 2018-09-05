@@ -16,6 +16,7 @@
       =render "discussion", readonly: @iteration.discussion_posts.size == 0
     -else
       =render "discussion"
+      =link_to "Report", report_my_solution_path(@solution), remote: true, class: 'pure-button report-button button'
 
 -elsif @user_track.independent_mode?
   =render "show_completed_independent"

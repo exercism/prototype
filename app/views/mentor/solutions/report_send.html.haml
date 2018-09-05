@@ -1,0 +1,7 @@
+%h2 Report Sent
+%p Your report was sent to the admin team
+
+=button_tag "Continue", class: 'pure-button report-modal-close-button'
+
+:javascript
+  $('#modal.mentor-solution-report-send .report-modal-close-button').click(function() { window.closeModal() });

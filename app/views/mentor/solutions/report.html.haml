@@ -1,0 +1,7 @@
+#modal-close-button x
+=form_tag [:report, :mentor, @solution], remote: true do
+  %h2 Report
+  %h3 What do you want to report?
+  =text_area_tag :report_text, nil, autofocus: true, required: true
+
+  =button_tag "Send", class: 'pure-button'

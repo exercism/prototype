@@ -1,0 +1,47 @@
+@import 'variables';
+@import 'mixins';
+
+#modal.mentor-solution-report,
+#modal.mentor-solution-report-send,
+#modal.my-solution-report,
+#modal.my-solution-report-send {
+    max-width:540px;
+    padding:50px 50px 50px 50px;
+    h2 {
+        @include font-size(20, 20);
+        font-weight:$regular;
+        color:#555;
+        margin-bottom:4px;
+        text-align:center;
+        i {
+            margin-right:5px;
+        }
+    }
+    h3 {
+        @include font-size(14, 14);
+        color:#555;
+        font-weight:$light;
+        text-align:center;
+        margin-bottom:20px;
+    }
+    p {
+        text-align:center;
+        color:#555;
+        @include font-size(14, 20);
+        margin-bottom:20px;
+    }
+    textarea {
+        width:100%;
+        min-height:200px;
+        margin-bottom:20px;
+    }
+    .pure-button {
+        background:$color-1;
+        display:block;
+        max-width:280px;
+        width:100%;
+        padding:11px 10px;
+        text-align:center;
+        margin: 0 auto 0;
+    }
+}

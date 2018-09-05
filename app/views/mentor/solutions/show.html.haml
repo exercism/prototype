@@ -33,9 +33,11 @@
         -if current_user.mentoring_solution?(@solution) || current_user.has_active_lock_for_solution?(@solution)
           =render "discussion"
           =render "new_discussion_post"
+          =link_to "Report", report_mentor_solution_path(@solution), remote: true, class: 'pure-button report-button button'
           =render "download-section"
         -else
           =render "claim-section"
+          =link_to "Report", report_mentor_solution_path(@solution), remote: true, class: 'pure-button report-button button'
 
 -content_for :js do
   :javascript

@@ -47,4 +47,27 @@ class SolutionButtonsTest < ApplicationSystemTestCase
     click_on "Comment"
     within(".preview-area") { assert_text "", { exact: true } }
   end
+
+  test "can report a solution" do
+    create :solution_mentorship, solution: @solution, user: @mentor
+
+    visit mentor_solution_path(@solution)
+
+    assert_selector ".report-button", text: "Report"
+
+    click_on "Report"
+
+    assert_selector "#modal.mentor-solution-report textarea"
+    report_text = "My example mentor report " + SecureRandom.uuid
+    fill_in "report_text", with: report_text
+
+    click_on "Send"
+
+    assert_selector "#modal.mentor-solution-report-send"
+    assert CoCReport.where(user: @mentor, solution_uuid: @solution.uuid, report_text: report_text).exists?
+
+    click_on "Continue"
+
+    refute_selector "#modal"
+  end
 end

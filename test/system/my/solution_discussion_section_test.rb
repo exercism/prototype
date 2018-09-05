@@ -218,4 +218,29 @@ class My::SolutionDiscussionSectionTest < ApplicationSystemTestCase
 
     assert_equal "", find(".new-discussion-post-form textarea").value
   end
+
+  test "can report a solution" do
+    solution = create(:solution, user: @user, track_in_independent_mode: false, independent_mode: false, exercise: create(:exercise, core: true))
+    create :iteration, solution: solution
+    create(:user_track, track: solution.track, user: @user)
+
+    visit my_solution_path(solution)
+
+    assert_selector ".report-button", text: "Report"
+
+    click_on "Report"
+
+    assert_selector "#modal.my-solution-report textarea"
+    report_text = "My example learner report " + SecureRandom.uuid
+    fill_in "report_text", with: report_text
+
+    click_on "Send"
+
+    assert_selector "#modal.my-solution-report-send"
+    assert CoCReport.where(user: @user, solution_uuid: solution.uuid, report_text: report_text).exists?
+
+    click_on "Continue"
+
+    refute_selector "#modal"
+  end
 end

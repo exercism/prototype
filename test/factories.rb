@@ -1,4 +1,10 @@
 FactoryBot.define do
+  factory :co_c_report do
+    solution_uuid { create(:solution).uuid }
+    user { create :user }
+    report_text "Example report"
+  end
+
   factory :solution_lock do
     solution { create :solution }
     user { create :user }

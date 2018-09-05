@@ -52,6 +52,8 @@ Rails.application.routes.draw do
         patch :approve
         patch :abandon
         patch :ignore
+        get :report
+        post :report, action: :report_send
       end
     end
     resources :discussion_posts, only: [:create]
@@ -125,6 +127,8 @@ Rails.application.routes.draw do
         patch :request_mentoring
         patch :reflect
         patch :publish
+        get :report
+        post :report, action: :report_send
       end
 
       resources :iterations, only: [:show]

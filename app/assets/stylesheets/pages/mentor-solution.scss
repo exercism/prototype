@@ -197,4 +197,21 @@
             }
         }
     }
+    .report-button {
+        margin-bottom:30px;
+        margin-top:30px;
+        border-radius:2px;
+        padding:8px 25px;
+        background:#fff;
+        border:1px solid #ccc;
+        color:#999;
+        float:left;
+        width:150px;
+        max-width:100%;
+        &:hover {
+            background:$color-1;
+            border-color:$color-1;
+            color:#fff;
+        }
+    }
 }

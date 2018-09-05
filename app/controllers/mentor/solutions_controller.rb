@@ -53,6 +53,15 @@ class Mentor::SolutionsController < MentorController
     end
   end
 
+  def report
+    render_modal("mentor-solution-report", "report")
+  end
+
+  def report_send
+    CoCReport.create!(user: current_user, solution_uuid: @solution.uuid, report_text: params[:report_text])
+    render_modal("mentor-solution-report-send", "report_send")
+  end
+
   private
 
   def set_solution

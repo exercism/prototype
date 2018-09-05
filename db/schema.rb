@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_05_111033) do
+ActiveRecord::Schema.define(version: 2018_09_04_125355) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -39,6 +39,15 @@ ActiveRecord::Schema.define(version: 2018_08_05_111033) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "fk_rails_0d66c22f4c"
+  end
+
+  create_table "co_c_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.text "solution_uuid", null: false
+    t.bigint "user_id", null: false
+    t.text "report_text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "fk_rails_15fd5e8927"
   end
 
   create_table "communication_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -447,6 +456,7 @@ ActiveRecord::Schema.define(version: 2018_08_05_111033) do
   end
 
   add_foreign_key "auth_tokens", "users"
+  add_foreign_key "co_c_reports", "users"
   add_foreign_key "communication_preferences", "users"
   add_foreign_key "discussion_posts", "iterations"
   add_foreign_key "exercise_topics", "exercises"

@@ -107,6 +107,15 @@ class My::SolutionsController < MyController
     redirect_to [:my, @solution]
   end
 
+  def report
+    render_modal("my-solution-report", "report")
+  end
+
+  def report_send
+    CoCReport.create!(user: current_user, solution_uuid: @solution.uuid, report_text: params[:report_text])
+    render_modal("my-solution-report-send", "report_send")
+  end
+
   private
 
   def set_solution
