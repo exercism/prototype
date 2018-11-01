@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_09_215319) do
+ActiveRecord::Schema.define(version: 2018_11_01_162622) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -281,6 +281,7 @@ ActiveRecord::Schema.define(version: 2018_10_09_215319) do
     t.boolean "track_in_independent_mode", default: false, null: false
     t.datetime "mentoring_requested_at"
     t.boolean "independent_mode", default: false, null: false
+    t.string "triaged_as"
     t.index ["approved_by_id"], name: "fk_rails_4cc89d0b11"
     t.index ["approved_by_id"], name: "ihid-5"
     t.index ["completed_at"], name: "ihid-6"

@@ -46,6 +46,8 @@ class Mentor::DashboardController < MentorController
   end
 
   def load_next_solutions
+    @next_triaged_as = params[:next_triaged_as]
+
     @next_track_id = params[:next_track_id].presence || single_track_id
     @next_track_id_options = track_id_options
 
@@ -56,6 +58,7 @@ class Mentor::DashboardController < MentorController
       current_user,
       filtered_track_ids: @next_track_id,
       filtered_exercise_ids: @next_exercise_id,
+      triaged_as: @next_triaged_as,
       page: params[:page]
     ).to_a
 

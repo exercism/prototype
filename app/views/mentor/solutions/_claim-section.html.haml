@@ -10,7 +10,13 @@
 .claim-section
   .request
     %h3 Give feedback on this solution
-    %p Can you help this learner improve this solution? Do you feel it's ready to approve? Click the button below to start giving feedback.
+    -if @solution.triaged_as
+      %p
+        This solution has been triaged as
+        %strong "#{@solution.triaged_as.to_s.titleize}".
+        = Solution::TRIAGED_AS_ENUM[@solution.triaged_as]
+    -else
+      %p Can you help this learner improve this solution? Do you feel it's ready to approve? Click the button below to start giving feedback.
     =link_to "Mentor this solution", lock_mentor_solution_path(@solution), remote: true, method: :patch, class: 'pure-button mentor-button js-disable-on-click'
 
     %h3 Don't feel like this one is for you?

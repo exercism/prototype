@@ -3,12 +3,13 @@ class SelectSuggestedSolutionsForMentor
 
   MAX_RESULTS = 20
 
-  attr_reader :user, :filtered_track_ids, :filtered_exercise_ids, :page
-  def initialize(user, filtered_track_ids: nil, filtered_exercise_ids: nil, page: nil)
+  attr_reader :user, :filtered_track_ids, :filtered_exercise_ids, :triaged_as, :page
+  def initialize(user, filtered_track_ids: nil, filtered_exercise_ids: nil, triaged_as: nil, page: nil)
     @user = user
     @page = page
     @filtered_track_ids = filtered_track_ids
     @filtered_exercise_ids = filtered_exercise_ids
+    @triaged_as = triaged_as
   end
 
   def call
@@ -83,9 +84,9 @@ class SelectSuggestedSolutionsForMentor
   end
 
   def base_query
-    Solution.
+    bs = Solution.
 
-      # Only mentored tracks
+      # Only relevant exercise_ids
       joins(:exercise).
       where("solutions.exercise_id": exercise_ids).
 
@@ -118,6 +119,10 @@ class SelectSuggestedSolutionsForMentor
                         WHERE solution_locks.solution_id = solutions.id
                         AND locked_until > ?
                         AND user_id != ?)", Time.current, user.id)
+
+      bs = bs.where(triaged_as: triaged_as) if triaged_as.present?
+
+      return bs
   end
 
   memoize

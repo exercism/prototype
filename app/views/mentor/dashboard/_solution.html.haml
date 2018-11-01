@@ -6,9 +6,10 @@
     .joiner
     =image display_avatar_url(solution.user, user_track), display_handle(solution.user, user_track), class: 'person'
 
-  -difficulty_word = exercise_difficulty_word(solution.exercise)
   .details
-    /.difficulty{class: difficulty_word}= difficulty_word
+    -if solution.triaged_as
+      .triaged-as{class: solution.triaged_as}= solution.triaged_as.to_s.titleize
+
     .title
       .handle #{display_handle(solution.user, user_track)}'s
       solution to

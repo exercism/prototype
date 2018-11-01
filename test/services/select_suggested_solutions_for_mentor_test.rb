@@ -1,6 +1,38 @@
 require 'test_helper'
 
 class SelectSuggestedSolutionsForMentorTest < ActiveSupport::TestCase
+  test "respects triaged_as" do
+    mentor = create(:user)
+    mentored_track = create :track
+
+    create :track_mentorship, user: mentor, track: mentored_track
+    mentee = create_mentee([mentored_track])
+    triaged_as = "status_1"
+
+    solution1 = create(:solution,
+                       exercise: create(:exercise, track: mentored_track),
+                       user: mentee,
+                       triaged_as: triaged_as,
+                       mentoring_requested_at: Time.current)
+    solution2 = create(:solution,
+                       exercise: create(:exercise, track: mentored_track),
+                       user: mentee,
+                       triaged_as: "status_2",
+                       mentoring_requested_at: Time.current)
+    solution3 = create(:solution,
+                       exercise: create(:exercise, track: mentored_track),
+                       user: mentee,
+                       triaged_as: triaged_as,
+                       mentoring_requested_at: Time.current)
+    create :iteration, solution: solution1
+    create :iteration, solution: solution2
+    create :iteration, solution: solution3
+
+
+    assert_equal [solution1, solution2, solution3].sort, SelectSuggestedSolutionsForMentor.(mentor).sort
+    assert_equal [solution1, solution3].sort, SelectSuggestedSolutionsForMentor.(mentor, triaged_as: triaged_as).sort
+  end
+
   test "only selects solutions for tracks that you are mentoring" do
     mentor = create(:user)
     mentored_track1 = create :track

@@ -172,6 +172,9 @@
         p {
             margin-bottom:10px;
             @include font-size(14, 19);
+            strong {
+                font-weight:$bold;
+            }
         }
         .pure-button {
             background:$color-1;

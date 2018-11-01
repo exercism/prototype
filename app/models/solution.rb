@@ -1,6 +1,13 @@
 class Solution < ApplicationRecord
   include SolutionBase
 
+  TRIAGED_AS_ENUM = {
+    approve: "This solution can be quickly approved with an encouraging comment.",
+    approve_with_suggestion: "This solution can be approved with a friendly suggestion as to what could be improved to make it even better." ,
+    minor_refactoring_required: "Some minor changes are required before the solution should be approved. A mentor will need to provide some basic guidance.",
+    major_refactoring_required: "A mentor will need to provide significant guidance to help the learner undersand idiomatic concepts, and the solution requires major refactoring or rewriting."
+  }
+
   belongs_to :approved_by, class_name: "User", optional: true
 
   has_many :iterations, dependent: :destroy
@@ -91,5 +98,10 @@ class Solution < ApplicationRecord
 
   def user_track
     UserTrack.find_by(user_id: user_id, track_id: exercise.track_id)
+  end
+
+  def triaged_as
+    s = super
+    s.present?? s.to_sym : nil
   end
 end
