@@ -4,7 +4,7 @@
       .pure-u-1.pure-u-md-1-3
         .icon
           =image "track-page-mentors.png", "Track mentors"
-        %h3 #{number_with_delimiter @track.mentors.size} #{"Mentor".pluralize(@track.mentors.size)}
+        %h3 #{number_with_delimiter @track.num_active_mentors} #{"Mentor".pluralize(@track.num_active_mentors)}
         .info Our mentors are friendly, experienced #{@track.title} developers who will help teach you new techniques and tricks.
 
       .pure-u-1.pure-u-md-1-3

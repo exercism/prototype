@@ -65,7 +65,7 @@ class My::ProfileController < MyController
   end
 
   def user_params
-    params.require(:user).permit(:bio, :avatar)
+    params.require(:user).permit(:avatar)
   end
 
   def set_profile

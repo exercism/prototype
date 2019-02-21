@@ -9,8 +9,4 @@ class TrackMentorship < ApplicationRecord
   def avatar_url
     super || user.avatar_url
   end
-
-  def bio
-    super || user.bio
-  end
 end

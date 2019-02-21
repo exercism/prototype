@@ -3,7 +3,7 @@ require 'test_helper'
 class RemindSolutionMentorshipTest < ActiveSupport::TestCase
   test "works with mentorship when mentor times-out" do
     Timecop.freeze do
-      mentor = create :user_mentor
+      mentor = create :mentor
       mentorship = create :solution_mentorship, user: mentor
 
       DeliverEmail.expects(:call).with(mentor, :remind_mentor, mentorship.solution)
@@ -16,7 +16,7 @@ class RemindSolutionMentorshipTest < ActiveSupport::TestCase
 
   test "doesn't do anything if the reminder has already been sent" do
     Timecop.freeze do
-      mentor = create :user_mentor
+      mentor = create :mentor
       mentorship = create :solution_mentorship, user: mentor, mentor_reminder_sent_at: Time.now
 
       DeliverEmail.expects(:call).never

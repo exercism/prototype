@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class Mentor::DiscussionPostsTest < ApplicationSystemTestCase
   setup do
-    @mentor = create(:user_mentor,
+    @mentor = create(:mentor,
                   accepted_terms_at: Date.new(2016, 12, 25),
                   accepted_privacy_policy_at: Date.new(2016, 12, 25))
 

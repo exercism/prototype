@@ -23,7 +23,7 @@
       .stats
         .stat= pluralize @track.exercises.active.count, "Exercise"
         .stat #{number_with_delimiter(@track.user_tracks.count)} Students
-        .stat= link_to pluralize(@track.mentors.count, "Mentors"), track_mentors_path(@track)
+        .stat= link_to pluralize(@track.num_active_mentors, "Mentors"), track_mentors_path(@track)
         .stat= link_to pluralize(@track.maintainers.count, "Maintainers"), track_maintainers_path(@track)
 
   -if @user_track.independent_mode?

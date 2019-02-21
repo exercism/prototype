@@ -15,7 +15,8 @@ else
   Exercism::API_HOST = "http://lvh.me:3000/api"
 end
 
-Exercism::MENTOR_RATING_THRESHOLD = 5
+Exercism::MENTOR_RATING_THRESHOLD = 10
+Exercism::MENTOR_ACTIVE_THRESHOLD = 1.month
 Exercism::MEDIAN_MENTOR_RATING = 4.83
 
 # To calculate median rating

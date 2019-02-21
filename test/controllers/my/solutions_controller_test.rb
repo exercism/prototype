@@ -68,6 +68,9 @@ class SolutionsControllerTest < ActionDispatch::IntegrationTest
     exercise = create :exercise, core: true, track: track
     solution = create :solution, user: @current_user, exercise: exercise
     iteration = create :iteration, solution: solution
+    get my_solution_url(solution)
+    assert_response :success
+
     discussion_post_1 = create :discussion_post, iteration: iteration
     discussion_post_2 = create :discussion_post, iteration: iteration
     discussion_post_3 = create :discussion_post, iteration: iteration

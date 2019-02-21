@@ -1,9 +1,11 @@
+-user = @profile.user
+
 #profile-page
   .header
     .lo-container
       %h1 #{@profile.display_name}'s Profile
       .h1-subtitle This is a showcase of some of the solutions that #{@profile.display_name} has published on Exercism.
-      -if user_signed_in? && current_user == @profile.user
+      -if user_signed_in? && current_user == user
         .btns
           =link_to [:edit, :my, :profile], remote: true, class: "pure-button edit-button" do
             =graphical_icon :cogs
@@ -16,31 +18,31 @@
     .pure-g
       .pure-u-1.pure-u-md-6-24.lhs
         .sidebar
-          =image_tag @profile.user.avatar_url, class: 'avatar', alt: @profile.user.name
+          =image_tag user.avatar_url, class: 'avatar', alt: user.name
           .name= @profile.display_name
-          -if @profile.user.bio.present?
-            .bio= @profile.user.bio
+          -if @profile.bio.present?
+            .bio= @profile.bio
           .hr
 
           %h3 On Exercism
           .badges
-            -if @profile.user.admin?
+            -if user.admin?
               .badge.admin Exercism admin
-            -@profile.user.mentored_tracks.each do |track|
+            -user.mentored_tracks.each do |track|
               .badge.mentor #{track.title} mentor
-            -@profile.user.maintained_tracks.each do |track|
+            -user.maintained_tracks.each do |track|
               .badge.maintainer #{track.title} maintainer
 
           .member-since
             =graphical_icon 'calendar fa-fw'
-            Since #{@profile.user.created_at.strftime("%b %Y")}
+            Since #{user.created_at.strftime("%b %Y")}
 
-          -if @profile_view.helped_count > 0
+          -if user.num_solutions_mentored > 0
             .helped-count
               =graphical_icon 'handshake-o fa-fw'
-              Helped
-              .count #{@profile_view.helped_count}
-              = "student".pluralize(@profile_view.helped_count)
+              Mentored
+              .count #{user.num_solutions_mentored}
+              = "solutions".pluralize(user.num_solutions_mentored)
 
           -if @profile.has_external_links?
             .hr

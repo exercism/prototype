@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_one :communication_preferences, dependent: :destroy
 
   has_one :profile, dependent: :destroy
+  has_one :mentor_profile, dependent: :destroy
   has_many :notifications, -> { order id: :desc }, dependent: :destroy
 
   has_many :team_memberships, dependent: :destroy
@@ -63,6 +64,17 @@ class User < ApplicationRecord
         user.handle = data["info"]["nickname"] if user.handle.blank?
       end
     end
+  end
+
+  def self.mentors
+    where(id: MentorProfile.select(:user_id))
+  end
+
+  def self.active_mentors
+    mentors.where(id: SolutionMentorship.
+                  joins(solution: :exercise).
+                  where("solution_mentorships.created_at > ?", Time.current - Exercism::MENTOR_ACTIVE_THRESHOLD).
+                  select(:user_id))
   end
 
   def User.system_user
@@ -163,17 +175,16 @@ class User < ApplicationRecord
                            count
   end
 
+  def is_mentor?
+    !!mentor_profile
+  end
+
   def mentor_rating
-    @mentor_rating ||= begin
-      rating_arr = solution_mentorships.where.not(rating: nil).order(:rating).pluck(:rating)
-      if rating_arr.empty?
-        0.0
-      else
-        five_percent = (rating_arr.length * 0.05).round
-        rating_arr.shift(five_percent)
-        (rating_arr.sum.to_f / rating_arr.length).round(2)
-      end
-    end
+    mentor_profile.try!(:average_rating).presence || 0
+  end
+
+  def num_solutions_mentored
+    mentor_profile.try!(:num_solutions_mentored).presence || 0
   end
 
   def has_active_lock_for_solution?(solution)

@@ -1,7 +1,7 @@
 class ReviewSolutionMentoring
   include Mandate
 
-  initialize_with :solution, :mentor_id, :rating, :feedback
+  initialize_with :solution, :mentor, :rating, :feedback
 
   def call
     solution_mentorship.update!(
@@ -9,11 +9,12 @@ class ReviewSolutionMentoring
       feedback: feedback,
       show_feedback_to_mentor: false
     )
+    RecalculateMentorStatsJob.perform_later(mentor)
   end
 
   def solution_mentorship
     @solution_mentorship ||=
-      solution.mentorships.where(user_id: mentor_id).first!
+      solution.mentorships.where(user_id: mentor).first!
   end
 end
 

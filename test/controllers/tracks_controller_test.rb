@@ -13,4 +13,20 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_correct_page "track-page"
   end
+
+  test "maintainers renders" do
+    Track.any_instance.stubs(repo: repo_mock)
+    get maintainers_track_url(create :track)
+    assert_response :success
+    assert_correct_page "track-maintainers-page"
+  end
+
+  test "mentors renders" do
+    Track.any_instance.stubs(repo: repo_mock)
+    get mentors_track_url(create :track)
+    assert_response :success
+    assert_correct_page "track-mentors-page"
+  end
+
+
 end

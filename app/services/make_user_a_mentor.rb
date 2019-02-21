@@ -10,7 +10,7 @@ class MakeUserAMentor
   end
 
   def make_mentor
-    user.update(is_mentor: true)
+    user.create_mentor_profile!
   end
 
   def create_track_mentorship

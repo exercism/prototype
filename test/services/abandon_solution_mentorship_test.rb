@@ -4,7 +4,7 @@ class AbandonSolutionMentorshipTest < ActiveSupport::TestCase
   test "works with mentorship when mentor times-out" do
     create :system_user
 
-    mentor = create :user_mentor, handle: 'freddie'
+    mentor = create :mentor, handle: 'freddie'
     solution = create :solution
     iteration = create :iteration, solution: solution
     mentorship = create :solution_mentorship, user: mentor, solution: solution
@@ -29,7 +29,7 @@ class AbandonSolutionMentorshipTest < ActiveSupport::TestCase
   test "works with mentorship when mentor leaves conversation" do
     create :system_user
 
-    mentor = create :user_mentor, handle: 'bobby'
+    mentor = create :mentor, handle: 'bobby'
     solution = create :solution
     iteration = create :iteration, solution: solution
     mentorship = create :solution_mentorship, user: mentor, solution: solution
@@ -50,7 +50,7 @@ class AbandonSolutionMentorshipTest < ActiveSupport::TestCase
   end
 
   test "works with mentorship for other reason" do
-    mentor = create :user_mentor
+    mentor = create :mentor
     solution = create :solution
     iteration = create :iteration, solution: solution
     mentorship = create :solution_mentorship, user: mentor, solution: solution
@@ -65,7 +65,7 @@ class AbandonSolutionMentorshipTest < ActiveSupport::TestCase
   end
 
   test "if the user has already abandoned this is a no-op" do
-    mentor = create :user_mentor
+    mentor = create :mentor
     solution = create :solution
     iteration = create :iteration, solution: solution
     mentorship = create :solution_mentorship, user: mentor, solution: solution, abandoned: true

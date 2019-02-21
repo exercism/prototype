@@ -11,7 +11,6 @@ class Track < ApplicationRecord
   has_many :mentorships, class_name: "TrackMentorship"
 
   has_many :maintainers
-  has_many :mentors
 
   scope :active, ->{ where(active: true) }
 
@@ -40,5 +39,22 @@ class Track < ApplicationRecord
 
   def repo
     Git::ExercismRepo.new(repo_url)
+  end
+
+  def num_active_mentors
+    active_solution_mentorship_user_ids.count
+  end
+
+  def active_mentors
+    User.where(id: active_solution_mentorship_user_ids)
+  end
+
+  private
+  def active_solution_mentorship_user_ids
+    SolutionMentorship.
+      joins(solution: :exercise).
+      where('exercises.track_id': id).
+      where("solution_mentorships.created_at > ?", Time.current - Exercism::MENTOR_ACTIVE_THRESHOLD).
+      select(:user_id).distinct
   end
 end

@@ -13,11 +13,14 @@ class TeamPagesController < ApplicationController
 
   def mentors
     @page = params[:page]
-    @mentors_last_updated_at = Mentor.order('updated_at DESC').limit(1).pluck(:updated_at)[0].to_i
-    @mentors = Mentor.reorder(Arel.sql('LENGTH(bio) DESC')).
-                      page(@page).
-                      group(:github_username).
-                      per(40)
+    @mentors_last_updated_at = TrackMentorship.order('updated_at DESC').limit(1).pluck(:updated_at)[0].to_i
+
+    # TODO - only show if they have enough ratings
+    @mentors = User.active_mentors.
+                    joins(:mentor_profile)
+                    reorder(Arel.sql('average_rating DESC')).
+                    page(@page).
+                    per(40)
   end
 
   def contributors

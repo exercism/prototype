@@ -9,16 +9,6 @@ class ProfilePresenter
   end
 
   memoize
-  def helped_count
-    user.
-      solution_mentorships.
-      joins(:solution).
-      select('solutions.user_id').
-      distinct.
-      count
-  end
-
-  memoize
   def solutions
     unfiltered_solutions
 

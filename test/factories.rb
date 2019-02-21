@@ -1,4 +1,8 @@
 FactoryBot.define do
+  factory :mentor_profile do
+    user { create :user }
+  end
+
   factory :solution_star do
     solution { create :solution }
     user { create :user }
@@ -58,7 +62,7 @@ FactoryBot.define do
   end
 
   factory :ignored_solution_mentorship do
-    user { create :user }
+    user { create :mentor }
     solution { create :solution }
   end
 
@@ -114,7 +118,7 @@ FactoryBot.define do
   end
 
   factory :track_mentorship do
-    user { create :user }
+    user { create :mentor }
     track { create :track }
   end
 
@@ -124,7 +128,7 @@ FactoryBot.define do
   end
 
   factory :solution_mentorship do
-    user { create :user }
+    user { create :mentor }
     solution { create :solution }
   end
 
@@ -165,8 +169,10 @@ FactoryBot.define do
     email { "jez.walker+#{SecureRandom.uuid}@gmail.com" }
     password { "foobar123" }
 
-    factory :user_mentor do
-      is_mentor { true }
+    factory :mentor do
+      after(:create) do |user|
+        create(:mentor_profile, user: user) unless user.mentor_profile
+      end
     end
 
     factory :system_user do
@@ -194,11 +200,5 @@ FactoryBot.define do
   factory :repo_update_fetch do
     repo_update { create(:repo_update) }
     host { |n| "host-#{n}" }
-  end
-
-  factory :mentor do
-    track
-    name { "Mentor" }
-    github_username { "mentor" }
   end
 end

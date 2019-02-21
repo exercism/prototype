@@ -3,7 +3,7 @@ require 'application_system_test_case'
 class FilterSolutionsTest < ApplicationSystemTestCase
   test "your solutions section does not show up if you do not mentor any" do
     track = create(:track)
-    mentor = create(:user_mentor,
+    mentor = create(:mentor,
                     accepted_terms_at: Date.new(2016, 12, 25),
                     accepted_privacy_policy_at: Date.new(2016, 12, 25),
                     mentored_tracks: [track])
@@ -20,7 +20,7 @@ class FilterSolutionsTest < ApplicationSystemTestCase
 
   test "filters solutions by status" do
     track = create(:track)
-    mentor = create(:user_mentor,
+    mentor = create(:mentor,
                     accepted_terms_at: Date.new(2016, 12, 25),
                     accepted_privacy_policy_at: Date.new(2016, 12, 25),
                     mentored_tracks: [track])
@@ -44,7 +44,7 @@ class FilterSolutionsTest < ApplicationSystemTestCase
 
   test "displays solutions requiring action by default" do
     track = create(:track)
-    mentor = create(:user_mentor,
+    mentor = create(:mentor,
                     accepted_terms_at: Date.new(2016, 12, 25),
                     accepted_privacy_policy_at: Date.new(2016, 12, 25),
                     mentored_tracks: [track])
@@ -77,7 +77,7 @@ class FilterSolutionsTest < ApplicationSystemTestCase
   test "filters solutions by track" do
     ruby = create(:track, title: "Ruby")
     cpp = create(:track, title: "C++")
-    mentor = create(:user_mentor,
+    mentor = create(:mentor,
                     accepted_terms_at: Date.new(2016, 12, 25),
                     accepted_privacy_policy_at: Date.new(2016, 12, 25),
                     mentored_tracks: [ruby, cpp])
@@ -107,7 +107,7 @@ class FilterSolutionsTest < ApplicationSystemTestCase
   test "filters solutions by exercise" do
     ruby = create(:track, title: "Ruby")
     go = create(:track, title: "Go")
-    mentor = create(:user_mentor,
+    mentor = create(:mentor,
                     accepted_terms_at: Date.new(2016, 12, 25),
                     accepted_privacy_policy_at: Date.new(2016, 12, 25),
                     mentored_tracks: [ruby, go])
@@ -137,7 +137,7 @@ class FilterSolutionsTest < ApplicationSystemTestCase
 
   test "autoselects your solutions when mentor has one track" do
     track = create(:track)
-    mentor = create(:user_mentor,
+    mentor = create(:mentor,
                     accepted_terms_at: Date.new(2016, 12, 25),
                     accepted_privacy_policy_at: Date.new(2016, 12, 25),
                     mentored_tracks: [track])

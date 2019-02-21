@@ -6,7 +6,7 @@ class ButtonsTest < ApplicationSystemTestCase
     # but passes locally and on the "Branch" stage on Travis
     skip
 
-    @mentor = create(:user_mentor)
+    @mentor = create(:mentor)
     @track = create(:track, title: "Ruby")
     create :track_mentorship, user: @mentor, track: @track
 

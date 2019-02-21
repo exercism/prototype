@@ -25,9 +25,8 @@
 
     %h2 Add a bio
     %p Tell us a little bit about yourself. A couple of sentences is perfect. You can edit this later.
-    =fields_for :user do |uf|
-      =uf.text_area :bio, placeholder: "Tell us a little bit about yourself (max 230 chars)", maxlength: 230
-      =f.button "Create profile", class: 'pure-button'
+    =f.text_area :bio, placeholder: "Tell us a little bit about yourself (max 230 chars)", maxlength: 230
+    =f.button "Create profile", class: 'pure-button'
 
 :javascript
   $('#modal.new-profile .page-1 button').click(function() {

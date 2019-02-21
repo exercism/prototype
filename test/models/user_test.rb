@@ -1,6 +1,39 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  test "self.mentors" do
+    user = create :user
+    assert_equal [], User.mentors
+
+    create :mentor_profile, user: user
+    assert_equal [user], User.mentors
+  end
+
+  test "self.active_mentors" do
+    track = create :track
+    exercise = create :exercise, track: track
+    user1 = create :mentor
+    user2 = create :mentor
+    user3 = create :mentor
+
+    assert_equal [], User.active_mentors
+
+    create :track_mentorship, track: track
+    assert_equal [], User.active_mentors
+
+    create :solution_mentorship, user: user1, solution: create(:solution, exercise: exercise)
+    assert_equal [user1], User.active_mentors
+
+    create :solution_mentorship, user: user2, created_at: Time.current - 25.days, solution: create(:solution, exercise: exercise)
+    assert_equal [user1, user2], User.active_mentors
+
+    create :solution_mentorship, user: user2, created_at: Time.current - 25.days, solution: create(:solution, exercise: exercise)
+    assert_equal [user1, user2], User.active_mentors
+
+    create :solution_mentorship, user: user3, created_at: Time.current - 32.days, solution: create(:solution, exercise: exercise)
+    assert_equal [user1, user2], User.active_mentors
+  end
+
   test "unlocking track" do
     user = create :user
     track = create :track
@@ -267,56 +300,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal system_user, User.system_user
   end
 
-
-  test "trimmed mentor_rating when 5% is under 0.5" do
-    user = create :user
-    assert_equal 0, user.mentor_rating
-
-    create :solution_mentorship, user: user, rating: 2
-    create :solution_mentorship, user: user, rating: 5
-    create :solution_mentorship, user: user, rating: 4
-    create :solution_mentorship, user: user, rating: nil
-
-    user = User.find(user.id) # Clear the cache
-    assert_equal 3.67, user.mentor_rating
-  end
-
-  test "trimmed mentor_rating with 20 solution memberships" do
-    user = create :user
-    assert_equal 0, user.mentor_rating
-
-    2.times do
-      create :solution_mentorship, user: user, rating: 1
-    end
-
-    5.times do
-      create :solution_mentorship, user: user, rating: 2
-    end
-
-    create :solution_mentorship, user: user, rating: 3
-
-    5.times do
-      create :solution_mentorship, user: user, rating: 4
-    end
-
-    7.times do
-      create :solution_mentorship, user: user, rating: 5
-    end
-
-    create :solution_mentorship, user: user, rating: nil
-
-    user = User.find(user.id) # Clear the cache
-    assert_equal 3.63, user.mentor_rating
-  end
-
-  test "trimmed mentor rating when no ratings are present" do
-    user = create :user
-    assert_equal 0, user.mentor_rating
-
-    user = User.find(user.id) # Clear the cache
-    assert_equal 0.0, user.mentor_rating
-  end
-
   test "starred_solution?" do
     user = create :user
     solution = create :solution
@@ -325,5 +308,29 @@ class UserTest < ActiveSupport::TestCase
 
     create :solution_star, user: user, solution: solution
     assert user.reload.starred_solution?(solution)
+  end
+
+  test "is_mentor?" do
+    user = create :user
+    refute user.is_mentor?
+
+    create :mentor_profile, user: user
+    assert user.is_mentor?
+  end
+
+  test "mentor_rating" do
+    user = create :user
+    assert_equal 0, user.mentor_rating
+
+    create :mentor_profile, user: user, average_rating: 3.2
+    assert_equal 3.2, user.reload.mentor_rating
+  end
+
+  test "num_solutions_mentored" do
+    user = create :user
+    assert_equal 0, user.num_solutions_mentored
+
+    create :mentor_profile, user: user, num_solutions_mentored: 15
+    assert_equal 15, user.reload.num_solutions_mentored
   end
 end

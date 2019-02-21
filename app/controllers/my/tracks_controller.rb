@@ -96,7 +96,7 @@ class My::TracksController < MyController
 
   def show_not_joined
     @track = Track.find(params[:id])
-    @mentors = @track.mentors.reorder(SQLSnippets.random).limit(6)
+    @mentors = @track.active_mentors.reorder(SQLSnippets.random).limit(6)
     @maintainers = @track.maintainers.visible.reorder('alumnus DESC', SQLSnippets.random).limit(6)
     @exercises = @track.exercises.active.reorder(SQLSnippets.random).limit(6)
     @testimonial = @track.testimonials.order(SQLSnippets.random).first

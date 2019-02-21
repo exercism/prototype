@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_12_000818) do
+ActiveRecord::Schema.define(version: 2019_02_13_003121) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -188,6 +188,20 @@ ActiveRecord::Schema.define(version: 2019_02_12_000818) do
     t.index ["solution_id"], name: "fk_rails_5d9f1bf4bd"
   end
 
+  create_table "legacy_mentors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "track_id", null: false
+    t.string "github_username", null: false
+    t.text "bio"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.string "avatar_url"
+    t.string "link_text"
+    t.string "link_url"
+    t.index ["track_id"], name: "index_legacy_mentors_on_track_id"
+  end
+
   create_table "maintainers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.bigint "user_id"
@@ -205,17 +219,14 @@ ActiveRecord::Schema.define(version: 2019_02_12_000818) do
     t.index ["user_id"], name: "fk_rails_5b1168410c"
   end
 
-  create_table "mentors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_id", null: false
-    t.string "name", null: false
-    t.string "avatar_url"
-    t.string "github_username", null: false
-    t.string "link_text"
-    t.string "link_url"
+  create_table "mentor_profiles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
     t.text "bio"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["track_id"], name: "index_mentors_on_track_id"
+    t.decimal "average_rating", precision: 3, scale: 2
+    t.integer "num_solutions_mentored", default: 0, null: false
+    t.index ["user_id"], name: "fk_rails_9a3e3e5b86"
   end
 
   create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -243,6 +254,7 @@ ActiveRecord::Schema.define(version: 2019_02_12_000818) do
     t.string "medium"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
     t.index ["user_id"], name: "fk_rails_e424190865"
   end
 
@@ -473,7 +485,6 @@ ActiveRecord::Schema.define(version: 2019_02_12_000818) do
     t.string "name", null: false
     t.string "handle", limit: 190, null: false
     t.string "avatar_url"
-    t.text "bio"
     t.string "email", limit: 190, default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token", limit: 190
@@ -496,7 +507,6 @@ ActiveRecord::Schema.define(version: 2019_02_12_000818) do
     t.datetime "accepted_privacy_policy_at"
     t.datetime "accepted_terms_at"
     t.boolean "dark_code_theme", default: false, null: false
-    t.boolean "is_mentor", default: false, null: false
     t.boolean "default_allow_comments"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -517,9 +527,10 @@ ActiveRecord::Schema.define(version: 2019_02_12_000818) do
   add_foreign_key "ignored_solution_mentorships", "solutions"
   add_foreign_key "ignored_solution_mentorships", "users"
   add_foreign_key "iteration_files", "iterations"
+  add_foreign_key "legacy_mentors", "tracks"
   add_foreign_key "maintainers", "tracks"
   add_foreign_key "maintainers", "users"
-  add_foreign_key "mentors", "tracks"
+  add_foreign_key "mentor_profiles", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "profiles", "users"
   add_foreign_key "repo_update_fetches", "repo_updates"

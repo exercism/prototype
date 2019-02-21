@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class MentorConfigureTest < ApplicationSystemTestCase
   test "mentor chooses tracks" do
-    user = create :user_mentor
+    user = create :mentor
     track_one = create(:track, title: "Ruby")
     track_two = create(:track, title: "Elm")
     track_three = create(:track, title: "Piet")

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Mentor::DiscussionPostsControllerTest < ActionDispatch::IntegrationTest
   test "approve calls service" do
-    mentor = create :user_mentor
+    mentor = create :mentor
     track = create :track
     exercise = create :exercise, track: track
     create :track_mentorship, user: mentor, track: track
