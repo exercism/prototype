@@ -19,8 +19,9 @@ module AnalysisServices
           else
             [comment_data, {}]
           end
-
-          repo.automated_comment_for(template) % params
+        template_content = repo.automated_comment_for(template)
+        raise "No template content for #{template}" if template_content.nil?
+        template_content % params
       end
     end
 
@@ -38,5 +39,3 @@ module AnalysisServices
 
   end
 end
-
-

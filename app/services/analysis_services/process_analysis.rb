@@ -43,6 +43,7 @@ module AnalysisServices
 
     rescue => e
       record.update!(website_error: e.message)
+      Rails.logger.warn ["Error expanding analysis comments: " + e.message, *e.backtrace].join($/)
     end
 
     def remove_system_lock
