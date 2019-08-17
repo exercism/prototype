@@ -8,18 +8,6 @@ pre.line-numbers {
     @include width-small() {
         font-size:100%;
     }
-    .line-numbers-rows {
-        span {
-            line-height:13px;
-            padding-bottom:1px;
-            @include width-small() {
-                line-height:16px;
-                padding-bottom:5px;
-            }
-            &:before {
-            }
-        }
-    }
     .line-highlight {
         background: rgba($color-2, 0.1);
         margin-top:0;
