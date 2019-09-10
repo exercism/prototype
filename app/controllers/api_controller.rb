@@ -1,10 +1,15 @@
 class APIController < ApplicationController
+  
   skip_before_action :verify_authenticity_token
   before_action :authenticate_user!
 
   rescue_from ActionController::RoutingError, with: -> { render_404  }
 
   layout false
+  
+  def a 
+    "a"
+  end
 
   def authenticate_user!
     authenticate_with_http_token do |token, options|

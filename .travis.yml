@@ -1,6 +1,7 @@
 dist: xenial
 env:
   global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
     - CC_TEST_REPORTER_ID=787a2f89b15c637323c7340d65ec17e898ac44480706b4b4122ea040c2a88f1d
 language: ruby
 sudo: true
@@ -37,6 +38,8 @@ script:
   - "bundle exec rake test:system"
 cache:
   node_modules: true
+  bundler: true
+  yarn : true
   directories:
     - vendor/bundle
 branches:
