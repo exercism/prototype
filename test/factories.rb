@@ -1,4 +1,13 @@
 FactoryBot.define do
+  factory :exercise_fixture do
+    exercise { create :exercise }
+    comments_by { create :user }
+
+    status { "approved" }
+    representation { "some(ast)-#{SecureRandom.uuid}" }
+    comments_markdown { "some feedback" }
+  end
+
   factory :submission_test_result, class: 'SubmissionTestResults' do
     submission { create :submission }
     ops_status { :no_test_runner }

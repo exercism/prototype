@@ -1,5 +1,7 @@
-class API::CLISettingsController < APIController
-  def show
-    render json: {}, status: 200
+module API
+  class CLISettingsController < BaseController
+    def show
+      render json: {}, status: 200
+    end
   end
 end

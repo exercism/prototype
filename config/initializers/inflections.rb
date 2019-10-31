@@ -13,6 +13,7 @@
 # These inflection rules are supported but not enabled by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'API'
+  inflect.acronym 'SPI'
   inflect.acronym 'CLI'
   inflect.acronym 'SQL'
   inflect.acronym 'HTML'
