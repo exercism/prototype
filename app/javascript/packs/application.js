@@ -1,6 +1,8 @@
 import 'selectize/dist/js/selectize.min.js';
 import 'rangeslider.js/dist/rangeslider.js';
+
 import '../src/libs/bootstrap-markdown.js';
+import 'jquery.hotkeys/jquery.hotkeys.js';
 
 import '../src/changelog_admin/referenceable_search.js';
 import '../src/blog_post.js';
