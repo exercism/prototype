@@ -5,6 +5,9 @@
     %li= link_to "Admin dashboard", [:admin, :dashboard]
 
   -if current_user.is_mentor?
-    %li= link_to "Mentor dashboard", [:mentor, :dashboard]
+    -your_count = RetrieveSolutionsForMentor.(current_user).count
+    %li= link_to "Mentor dashboard (#{your_count})", [:mentor, :dashboard]
+    -if your_count.zero?
+      %li= link_to "New solutions", next_solutions_mentor_dashboard_url
   -elsif allowed_to_mentor?
     %li= link_to "Become a mentor", become_a_mentor_path
