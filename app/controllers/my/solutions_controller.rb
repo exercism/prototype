@@ -88,7 +88,7 @@ class My::SolutionsController < MyController
     allow_comments = !!params[:allow_comments]
 
     @solution.update(reflection: params[:reflection])
-    PublishSolution.(@solution) if params[:publish]
+    ToggleSolution.(@solution) if params[:publish]
     @solution.update(allow_comments: allow_comments)
     current_user.update(default_allow_comments: allow_comments) if current_user.default_allow_comments === nil
 
@@ -113,8 +113,13 @@ class My::SolutionsController < MyController
   end
 
   def publish
-    PublishSolution.(@solution) if params[:publish]
+    ToggleSolution.(@solution) if params[:publish]
     redirect_to [@solution]
+  end
+
+  def unpublish
+    ToggleSolution.(@solution) if params[:unpublish]
+    redirect_to [:my, @solution]
   end
 
   def update_exercise
@@ -123,11 +128,7 @@ class My::SolutionsController < MyController
   end
 
   def toggle_published
-    if @solution.published?
-      @solution.update(published_at: nil)
-    else
-      PublishSolution.(@solution)
-    end
+    ToggleSolution.(@solution)
 
     render "toggle"
   end

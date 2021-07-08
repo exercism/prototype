@@ -240,6 +240,7 @@ Rails.application.routes.draw do
         patch :reflect
         patch :rate_mentors
         patch :publish
+        patch :unpublish
         patch :update_exercise
 
         patch :toggle_published

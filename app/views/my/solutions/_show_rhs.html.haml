@@ -1,3 +1,8 @@
+.right-section
+  .next-option
+    -if @solution.published?
+      =link_to "Unpublish your solution", [:unpublish, :my, @solution, unpublish: 1], method: :patch, class: 'pure-button'
+
 -if @solution.last_updated_legacy? && !@solution.mentoring_requested?
   / Legacy Mode
   =render "show_legacy"
